@@ -1,5 +1,5 @@
 import { Type } from "@nestjs/common";
-import { ManifestConfig } from "../config/config.types";
+import { ManifestConfigType } from "../config/config.types";
 import { ConfigFactory } from "@nestjs/config";
 
 export type LoadManifestsOptions = {
@@ -24,7 +24,7 @@ export interface ModuleManifest {
     priority?: number;
     enabledByDefault?: boolean;
     getModule: () => Promise<Type<any>>;
-    config?: ManifestConfig;
+    config?: ManifestConfigType;
     db?: ModuleDbPaths;
     tags?: string[];
 }

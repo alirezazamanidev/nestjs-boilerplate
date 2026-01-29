@@ -3,7 +3,7 @@ import { ObjectSchema } from "joi"
 import { LoadManifestsOptions } from "../modules/manifest.types";
 
 
-export type ManifestConfig ={
+export type ManifestConfigType ={
   factory?:ConfigFactory,
   schema?:ObjectSchema
 }

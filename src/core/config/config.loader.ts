@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { LoadConfigOptions, ManifestConfig } from './config.types';
+import { LoadConfigOptions, ManifestConfigType } from './config.types';
 import { existsSync } from 'fs';
 import fg from 'fast-glob';
 import { importModule } from 'src/common/utils/module.utils';
@@ -7,7 +7,7 @@ import { ConfigFactory } from '@nestjs/config';
 
 import { getActiveManifests } from '../modules/manifest.loader';
 import Joi from 'joi';
-function isManifestConfig(x: unknown): x is ManifestConfig {
+function isManifestConfig(x: unknown): x is ManifestConfigType {
   if (!x || typeof x !== 'object') return false;
 
   const anyX = x as any;
@@ -39,7 +39,7 @@ let CORE_MODULES: ManifestConfig[] = [];
 
 export async function loadCoreModulesConfig(
   opts: LoadConfigOptions,
-): Promise<ManifestConfig[]> {
+): Promise<ManifestConfigType[]> {
   if (!opts.forceReload && CORE_MODULES.length > 0) return CORE_MODULES;
   if (opts.forceReload) CORE_MODULES = [];
   const cwd = opts.cwd ?? process.cwd();
@@ -92,4 +92,10 @@ export async function getEnvSchema(
 ): Promise<Joi.ObjectSchema> {
     const schemas = await getConfigSchemas(opts);
     return schemas.reduce((acc, s) => acc.concat(s), Joi.object({}));
+}
+export class ManifestConfig {
+    constructor(
+        public factory?: ConfigFactory,
+        public schema?: Joi.ObjectSchema,
+    ) {}
 }
