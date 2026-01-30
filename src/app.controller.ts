@@ -6,6 +6,7 @@ export class AppController {
 
 
     @Get('/check')
+
     check(){
         return 'ok'
     }
