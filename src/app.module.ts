@@ -6,6 +6,7 @@ import { MessagingModule } from './core/messaging/messaging.module';
 import { GlobalProvidersModule } from './core/providers/global.module';
 import { AppController } from './app.controller';
 import { AppClsModule } from './core/cls/cls.module';
+import { CoreThrottlerModule } from './core/security/throttler.module';
 
 @Module({})
 export class AppModule {
@@ -20,8 +21,8 @@ export class AppModule {
         MessagingModule.forRootAsync(),
         AppClsModule,
         GlobalProvidersModule,
-        ...bundle.modules
-
+        ...bundle.modules,
+        ...(!isCli ? [CoreThrottlerModule] :[])
       ]
     }
   }
