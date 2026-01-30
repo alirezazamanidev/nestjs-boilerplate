@@ -7,6 +7,7 @@ import { GlobalProvidersModule } from './core/providers/global.module';
 import { AppController } from './app.controller';
 import { AppClsModule } from './core/cls/cls.module';
 import { CoreThrottlerModule } from './core/security/throttler.module';
+import { LoggerModule } from './core/logger/logger.module';
 
 @Module({})
 export class AppModule {
@@ -18,6 +19,7 @@ export class AppModule {
       controllers:[AppController],
       imports:[
         ConfigModule.register(configOptions),
+        LoggerModule,
         MessagingModule.forRootAsync(),
         AppClsModule,
         GlobalProvidersModule,
