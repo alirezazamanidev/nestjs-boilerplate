@@ -3,6 +3,8 @@ import { FeatureBundle } from './core/modules/manifest.types';
 import { getConfigOptionsFromEnv, getManifestsOptionsFromEnv } from './common/utils/loader-options.utils';
 import { ConfigModule } from './core/config/config.module';
 import { MessagingModule } from './core/messaging/messaging.module';
+import { GlobalProvidersModule } from './core/providers/global.module';
+import { AppController } from './app.controller';
 
 @Module({})
 export class AppModule {
@@ -11,9 +13,11 @@ export class AppModule {
     const configOptions = getConfigOptionsFromEnv();
     return {
       module: AppModule,
+      controllers:[AppController],
       imports:[
         ConfigModule.register(configOptions),
         MessagingModule.forRootAsync(),
+        GlobalProvidersModule,
         ...bundle.modules
 
       ]

@@ -24,6 +24,8 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
     "fast-glob": "^3.3.3",
     "file-stream-rotator": "^1.0.0",
     "joi": "^18.0.2",
