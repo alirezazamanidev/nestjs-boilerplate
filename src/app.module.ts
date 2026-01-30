@@ -26,6 +26,7 @@ export class AppModule {
         ...bundle.modules,
         ...(!isCli ? [CoreThrottlerModule] :[])
       ]
+      ,
     }
   }
 }
