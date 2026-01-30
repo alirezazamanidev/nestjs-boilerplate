@@ -5,6 +5,7 @@ import { ConfigModule } from './core/config/config.module';
 import { MessagingModule } from './core/messaging/messaging.module';
 import { GlobalProvidersModule } from './core/providers/global.module';
 import { AppController } from './app.controller';
+import { AppClsModule } from './core/cls/cls.module';
 
 @Module({})
 export class AppModule {
@@ -17,6 +18,7 @@ export class AppModule {
       imports:[
         ConfigModule.register(configOptions),
         MessagingModule.forRootAsync(),
+        AppClsModule,
         GlobalProvidersModule,
         ...bundle.modules
 
