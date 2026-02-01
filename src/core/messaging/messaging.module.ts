@@ -6,15 +6,18 @@ import { MessagingDriverInitializer } from "./services/messaging-driver.initiali
 import { MessagingManager } from "./messaging.manager";
 import { RabbitMqConnectionManager } from "../rabbitMq/rabbitMq-connection.service";
 import { RabbitmqTransportModule } from "../rabbitMq/rabbitmq-transport.module";
+import { MessagingSubscriberExplorer } from "./messaging-subscriber.explorer";
+import { DiscoveryModule } from "@nestjs/core";
 
 @Global()
 @Module({
-    imports:[MemoryMessagingModule],
+    imports:[MemoryMessagingModule,DiscoveryModule],
     providers:[
         MessagingDriverRegistry,
         MessagingService,
         MessagingDriverInitializer,
         RabbitMqConnectionManager,
+        MessagingSubscriberExplorer,
       
         {
             provide:MessagingManager,

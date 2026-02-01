@@ -16,7 +16,9 @@ class RabbitmqTransportRegistrar implements OnModuleInit {
     ) {}
 
     onModuleInit(): void {
-     
+        const enabled = this.config.get<boolean>('messaging.enabled', false);
+       
+        if (!enabled) return;
 
        
         this.messagingRegistry.register('rabbit', this.rabbitMessagingDriver);

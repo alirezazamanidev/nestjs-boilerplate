@@ -13,6 +13,7 @@ import { CoreThrottlerModule } from './core/security/throttler.module';
 import { LoggerModule } from './core/logger/logger.module';
 import { RabbitmqTransportModule } from './core/rabbitMq/rabbitmq-transport.module';
 import { MessagingModule } from './core/messaging';
+import { AppService } from './app.service';
 
 @Module({})
 export class AppModule {
@@ -37,6 +38,7 @@ export class AppModule {
         ...bundle.modules,
         ...(!isCli ? [CoreThrottlerModule] : []),
       ],
+      providers:[AppService]
     };
   }
 }
