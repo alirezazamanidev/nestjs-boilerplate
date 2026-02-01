@@ -7,6 +7,7 @@ import type {
 } from '../interfaces';
 import { LoggerManager } from 'src/core/logger/logger.manager';
 import { MessagingDriverRegistry } from '../messaging-driver.registry';
+import { Trace } from 'src/common/decorators';
 @Injectable()
 export class MessagingService {
   private readonly logger = LoggerManager.resolveLogger({
@@ -15,7 +16,7 @@ export class MessagingService {
 
   constructor(private readonly driverRegistry: MessagingDriverRegistry) {}
 
-//   @Trace()
+  @Trace()
   async publish(
     envelope: MessageEnvelope,
     options?: PublishOptions,
@@ -24,7 +25,7 @@ export class MessagingService {
     await driver.publish(envelope, options);
   }
 
-//   @Trace()
+  @Trace()
   async subscribe(
     topic: string,
     handler: (envelope: MessageEnvelope) => Promise<void>,
