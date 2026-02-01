@@ -34,11 +34,13 @@
     "fast-glob": "^3.3.3",
     "file-stream-rotator": "^1.0.0",
     "joi": "^18.0.2",
+    "mysql2": "^3.16.2",
     "nestjs-cls": "^6.2.0",
     "nestjs-pino": "^4.5.0",
     "pino": "^10.3.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

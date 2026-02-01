@@ -14,6 +14,7 @@ import { LoggerModule } from './core/logger/logger.module';
 import { RabbitmqTransportModule } from './core/rabbitMq/rabbitmq-transport.module';
 import { MessagingModule } from './core/messaging';
 import { AppService } from './app.service';
+import { DatabaseModule } from './core/database/database.module';
 
 @Module({})
 export class AppModule {
@@ -34,6 +35,7 @@ export class AppModule {
         RabbitmqTransportModule,
         MessagingModule,
         GlobalProvidersModule,
+        DatabaseModule,
         RabbitmqTransportModule,
         ...bundle.modules,
         ...(!isCli ? [CoreThrottlerModule] : []),
