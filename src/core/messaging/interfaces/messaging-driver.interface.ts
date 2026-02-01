@@ -1,4 +1,4 @@
-import { MessageEnvelope, PublishOptions,SubscribeOptions } from "./message-envelope";
+import { MessageEnvelope, PublishOptions, SubscribeOptions } from './message-envelope';
 
 /**
  * Represents a unified contract for messaging drivers.
@@ -6,7 +6,6 @@ import { MessageEnvelope, PublishOptions,SubscribeOptions } from "./message-enve
  * consistent publish/subscribe behavior across different messaging systems.
  */
 export interface MessagingDriver {
-    readonly name:string
     /**
      * Establishes a connection to the messaging system.
      */

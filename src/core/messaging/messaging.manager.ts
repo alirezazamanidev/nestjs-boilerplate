@@ -1,21 +1,22 @@
-import { MemoryMessagingDriver } from "./memory/memory.driver";
-import { MessagingDriverRegistry } from "./messaging-driver.registry";
-import { MessagingService } from "./services/messaging.service";
 
+import { MessagingService } from './services/messaging.service';
+import { MemoryMessagingDriver } from './memory/memory.driver';
+import { MessagingDriverRegistry } from './messaging-driver.registry';
 
 export class MessagingManager {
     constructor(private readonly messagingService: MessagingService) {}
 
-    private static _factory?:()=>MessagingService;
+    private static _factory?: () => MessagingService;
     private static fallbackService?: MessagingService;
 
-  
     static registerFactory(factory: () => MessagingService) {
         this._factory = factory;
     }
-      service(): MessagingService {
+
+    service(): MessagingService {
         return this.messagingService;
     }
+
     static resolveService(): MessagingService {
         if (this._factory) return this._factory();
         if (!this.fallbackService) {
@@ -23,7 +24,8 @@ export class MessagingManager {
         }
         return this.fallbackService;
     }
-      static tryResolveService(): MessagingService | null {
+
+    static tryResolveService(): MessagingService | null {
         try {
             return this.resolveService();
         } catch {

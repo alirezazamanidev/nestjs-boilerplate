@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MessagingDriver } from './interfaces';
 
-
 @Injectable()
 export class MessagingDriverRegistry {
     private drivers = new Map<string, MessagingDriver>();
