@@ -3,23 +3,6 @@ import Joi from 'joi';
 import { ManifestConfig } from '../config/config.loader';
 import { LogLevel } from '../logger/logger.interface';
 import { LogLevelType } from './typeorm.logger';
-export interface DatabaseConfigType {
-  type: 'mysql' | 'postgres'
-  host: string;
-  port: number;
-  username: string;
-  password: string;
-  synchronize: boolean;
-  logging: boolean;
-  entities: string[];
-  loggingLevel:LogLevelType
-  database:string
-  pool: {
-    min: number;
-    max: number;
-    idleTimeout: number;
-  };
-}
 const databaseConfig = registerAs('db', () => {
   const entities = __dirname + `../**/*.entity{.js,.ts}`;
 
