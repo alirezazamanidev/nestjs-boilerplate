@@ -16,11 +16,14 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r, ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "cli": "npm run build && node dist/cli/cli.main.js",
+    "migrate": "npm run cli -- migrate"
   },
   "dependencies": {
     "@casl/ability": "^6.8.0",
+    "@faker-js/faker": "^10.2.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -37,6 +40,7 @@
     "file-stream-rotator": "^1.0.0",
     "joi": "^18.0.2",
     "mysql2": "^3.16.2",
+    "nest-commander": "^3.20.1",
     "nestjs-cls": "^6.2.0",
     "nestjs-pino": "^4.5.0",
     "pino": "^10.3.0",

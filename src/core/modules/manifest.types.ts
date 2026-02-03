@@ -1,6 +1,7 @@
-import { Type } from "@nestjs/common";
+import { INestApplicationContext, Type } from "@nestjs/common";
 import { ManifestConfigType } from "../config/config.types";
 import { ConfigFactory } from "@nestjs/config";
+import { DataSource, EntityManager } from "typeorm";
 
 export type LoadManifestsOptions = {
     glob?: string;
@@ -18,6 +19,15 @@ export interface ImportedModule {
     default?: { manifest?: ModuleManifest };
     manifest?: ModuleManifest;
 }
+export type FakeContext = {
+    app: INestApplicationContext;
+    dataSource: DataSource;
+    em: EntityManager;
+    faker: any;
+    cfg: (key: string) => any;
+};
+export type SeedFn = (ctx: FakeContext) => Promise<void>;
+
 export interface ModuleManifest {
     id: string;
     title?: string;
