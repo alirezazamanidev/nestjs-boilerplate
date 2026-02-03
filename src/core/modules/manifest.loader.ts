@@ -63,6 +63,7 @@ export async function reloadManifests(
 export function filterActive(manifests: ModuleManifest[]):ModuleManifest[] {
     const enabled=parseList(process.env.ENABLED_MODULES);
     const disabled=parseList(process.env.MODULES_DISABLED);
+    
     return manifests.filter((m) => {
         if (enabled.length > 0) return enabled.includes(m.id);
         if (disabled.length > 0) return !disabled.includes(m.id);

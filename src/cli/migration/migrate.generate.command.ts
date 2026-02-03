@@ -11,6 +11,13 @@ import type {
   LoadManifestsOptions,
 } from 'src/core/modules/manifest.types';
 import { DataSource } from 'typeorm';
+const CLI_PATH = join(
+  process.cwd(),
+  'dist',
+  'core',
+  'database',
+  'datasource.cli.js',
+);
 
 type GenerateOptions = {
   name: string;
@@ -19,8 +26,8 @@ type GenerateOptions = {
 };
 
 @Command({
-    name: 'migrate:make',
-    description: 'generate migration',
+  name: 'migrate:make',
+  description: 'generate migration',
 })
 export class MigrateMakeCommand extends CommandRunner {
   private readonly logger = new Logger('MigrateMakeCommand');
@@ -49,9 +56,17 @@ export class MigrateMakeCommand extends CommandRunner {
 
       const command =
         options.type === 'generate'
-          ? ['typeorm', 'migrate', 'migration:generate', '-d', migrationPath]
+          ? [
+              'typeorm',
+              
+              'migration:generate',
+              '-d',
+              CLI_PATH,
+              migrationPath,
+            ]
           : ['typeorm', 'migration:create', migrationPath];
       this.logger.log('Running:', command.join(' '));
+
       const result = spawnSync('npx', command, {
         stdio: 'inherit',
         cwd: cwd(),

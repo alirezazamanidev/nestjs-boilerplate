@@ -1,9 +1,10 @@
 
-
 import { ConfigService } from '@nestjs/config';
 import { getManifestsOptionsFromEnv } from './common/utils/loader-options.utils';
 import { createApp } from './core/bootstrap/create-app';
 import { setupApp } from './core/bootstrap/app.setup';
+import { config } from 'dotenv';
+config({path:['.env']})
 
 async function bootstrap() {
    

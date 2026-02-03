@@ -20,12 +20,12 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "cli": "npm run build && node dist/cli/cli.main.js",
     "migrate": "npm run cli -- migrate",
-    "migrate:rollback": "npm run cli -- migrate:rollback",
+    "migrate:rollback": "npm run cli  -- migrate:rollback",
     "migrate:status": "npm run cli -- migrate:status",
     "migrate:fresh": "npm run cli -- migrate:fresh",
-    "migrate:generate": "npm run cli -- migrate:make -t generate",
-    "migrate:create": "npm run cli -- migrate:make -t create"
-
+    "migrate:generate": "npm run bundle:build && npm run cli -- migrate:make -t generate",
+    "migrate:create": "npm run cli -- migrate:make -t create",
+    "bundle:build":"npm run cli  -- bundle:build"
   },
   "dependencies": {
     "@casl/ability": "^6.8.0",
@@ -42,6 +42,7 @@
     "axios": "^1.13.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
+    "dotenv": "^17.2.3",
     "fast-glob": "^3.3.3",
     "file-stream-rotator": "^1.0.0",
     "joi": "^18.0.2",

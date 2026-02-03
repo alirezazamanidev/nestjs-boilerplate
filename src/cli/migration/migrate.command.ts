@@ -26,37 +26,48 @@ export class MigrateCommand extends CommandRunner {
   ) {
     super();
   }
+async run(inputs: string[], options: MigrateOptions): Promise<void> {
+ 
+  const scopedDataSource = await createScopedDataSource({
+    baseDataSource: this.ds,
+    bundle: this.bundle,
+    onlyModuleId: options.only,
+    withDefaultMigrations: options.withDefaultGlob ?? false,
+  });
 
-  async run(inputs: string[], options: MigrateOptions): Promise<void> {
-    const scopedDataSource = await createScopedDataSource({
-      baseDataSource: this.ds,
-      bundle: this.bundle,
-      onlyModuleId: options.only,
-      withDefaultMigrations: options.withDefaultGlob ?? false,
+
+
+  this.logger.log(
+    `Running migrations for ${options.only ? `module "${options.only}"` : 'all modules'}`,
+  );
+
+  try {
+    await scopedDataSource.initialize();
+    const res: Migration[] | undefined = await scopedDataSource.runMigrations({
+      transaction: options.transaction ?? DEFAULT_TRANSACTION_MODE,
+      fake: !!options.fake,
     });
-    this.logger.log(
-      `Running migrations for  ${options.only ? `module "${options.only}"` : 'all modules'}`,
-    );
-    try {
-      await scopedDataSource?.initialize();
-      const res: any = await scopedDataSource?.runMigrations({
-        transaction: options.transaction ?? DEFAULT_TRANSACTION_MODE,
-        fake: !!options.fake,
-      });
-      if (res.length === 0) this.logger.log('No pending migrations.');
 
+    // بررسی اگر res undefined یا null بود
+    if (!res || res.length === 0) {
+      this.logger.log('No pending migrations.');
+    } else {
       for (const r of res) {
-        this.logger.log(`migrated successfully: ${r.name}`);
+        this.logger.log(`Migrated successfully: ${r.name}`);
       }
-    } catch (error) {
-      this.logger.error(error);
-      throw error;
-    } finally {
-      await scopedDataSource?.destroy();
     }
-        this.logger.log('Migrations completed');
 
+  } catch (error) {
+    this.logger.error('Migration failed:', error);
+    throw error;
+  } finally {
+    if (scopedDataSource?.isInitialized) {
+      await scopedDataSource.destroy();
+    }
   }
+
+  this.logger.log('Migrations completed');
+}
   @Option({
     flags: '-o, --only <moduleId>',
     description: 'Run only migrations of a specific module',

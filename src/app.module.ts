@@ -24,6 +24,7 @@ export class AppModule {
   ): DynamicModule {
     const isCli = opts?.profile === 'cli';
     const configOptions = getConfigOptionsFromEnv();
+ 
     return {
       module: AppModule,
       controllers: [AppController],
