@@ -50,6 +50,7 @@
     "mysql2": "^3.16.2",
     "nest-commander": "^3.20.1",
     "nestjs-cls": "^6.2.0",
+    "nestjs-paginate": "^12.8.3",
     "nestjs-pino": "^4.5.0",
     "pino": "^10.3.0",
     "reflect-metadata": "^0.2.2",
