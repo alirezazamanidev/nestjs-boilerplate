@@ -1,0 +1,18 @@
+{
+
+    "messages": {
+      "welcome": "خوش آمدید"
+    },
+    "error": {
+      "serverError": "خطای داخلی سرور",
+      "unauthorized": "دسترسی غیرمجاز",
+      "forbidden": "دسترسی ممنوع",
+      "badRequest": "درخواست نامعتبر",
+      "notFound": "یافت نشد",
+      "conflict": "تناقض"
+    },
+    "success": {
+      "operationSuccessful": "همه چیز عالی پیش رفت."
+    }
+
+}

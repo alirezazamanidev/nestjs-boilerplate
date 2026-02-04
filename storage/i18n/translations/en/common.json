@@ -1,0 +1,16 @@
+{
+    "messages": {
+        "welcome": "Welcome"
+    },
+    "error": {
+        "serverError": "Internal server error",
+        "unauthorized": "Unauthorized access",
+        "forbidden": "Forbidden access",
+        "badRequest": "Invalid request",
+        "notFound": "Not found",
+        "conflict": "Conflict"
+    },
+    "success": {
+        "operationSuccessful": "Everything is going great."
+    }
+}

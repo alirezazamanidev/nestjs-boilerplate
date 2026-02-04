@@ -2,7 +2,8 @@ import { Response } from 'express';
 import { NODE_ENV } from '../config/config';
 import { ClsServiceManager } from 'nestjs-cls';
 import { ValidationError } from 'class-validator';
-import { LoggerManager } from './../../core/logger/logger.manager';
+import { I18nContext } from 'nestjs-i18n';
+
 import {
     Catch,
     HttpStatus,
@@ -12,6 +13,7 @@ import {
     InternalServerErrorException,
     UnprocessableEntityException,
 } from '@nestjs/common';
+import { LoggerManager } from 'src/core/logger/logger.manager';
 
 type TFormattedValidationError = {
     [key: string]: string[] | TFormattedValidationError;
@@ -119,7 +121,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
      */
     private formatValidationError(errors: ValidationError[]) {
         const formattedErrors: TFormattedValidationError = {};
-        
+        const i18n = I18nContext.current();
 
         errors.forEach((error: ValidationError) => {
             const { constraints, children } = error;
@@ -128,7 +130,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             // Example: @IsNotEmpty, @IsEmail, etc.
             if (constraints) {
                 if (constraints.isMongoId) {
-                    constraints.isMongoId = `${error.value} is not valid id.`;
+                    constraints.isMongoId = i18n
+                        ? i18n.t('common.validation.invalid')
+                        : `${error.value} is not valid id.`;
                 }
 
                 // Convert constraint messages to an array for easy consumption in API responses
@@ -151,10 +155,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     private handleValidationException(errors: ValidationError[]) {
-    
+        const i18n = I18nContext.current();
         const formattedErrors = this.formatValidationError(errors);
         const exceptionInst = new UnprocessableEntityException({
-            message:'Validation error happened',
+            message: i18n
+                ? i18n.t('common.error.badRequest')
+                : 'Validation error happened',
             error: 'Unprocessable Entity',
             statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
             errors: formattedErrors,
@@ -168,9 +174,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     private handleUnexpectedErrors() {
-        
+        const i18n = I18nContext.current();
         const internalException = new InternalServerErrorException(
-            'Server Error'
+            i18n?.t('common.error.serverError'),
         );
 
         return internalException;

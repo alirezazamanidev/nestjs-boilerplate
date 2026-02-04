@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && node src/core/i18n/scripts/flatten-translations.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -52,6 +52,7 @@
     "mysql2": "^3.16.2",
     "nest-commander": "^3.20.1",
     "nestjs-cls": "^6.2.0",
+    "nestjs-i18n": "^10.6.0",
     "nestjs-paginate": "^12.8.3",
     "nestjs-pino": "^4.5.0",
     "pino": "^10.3.0",
