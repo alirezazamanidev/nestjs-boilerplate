@@ -1,9 +1,10 @@
 import { Module, Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { buildValidationPipe } from './options/app-pipe.options';
 import { GlobalExceptionFilter } from 'src/common/filters/global-exception.filter';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+import { AuthGuard } from 'src/common/guard/auth.guard';
 
 const INTERCEPTORS: Provider[] = [
   {
@@ -18,13 +19,19 @@ const PIPES: Provider[] = [
     useFactory: buildValidationPipe,
   },
 ];
+
+
+const GUARDS: Provider[] = [
+    { provide: APP_GUARD, useClass: AuthGuard },
+
+];
 const FILTERS: Provider[] = [
   {
     provide: APP_FILTER,
     useClass: GlobalExceptionFilter,
   },
 ];
-const GLOBALS: Provider[] = [...INTERCEPTORS, ...PIPES, ...FILTERS];
+const GLOBALS: Provider[] = [...INTERCEPTORS, ...PIPES, ...GUARDS, ...FILTERS];
 
 @Module({
     imports:[],
