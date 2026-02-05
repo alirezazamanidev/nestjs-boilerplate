@@ -3,7 +3,8 @@
 /node_modules
 /build
 # Storage directory - ignore everything except .gitkeep files
-/storage
+/storage/**
+!/storage/.gitkeep
 # Logs
 logs
 *.log
