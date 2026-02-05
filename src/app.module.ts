@@ -15,6 +15,7 @@ import { RabbitmqTransportModule } from './core/rabbitMq/rabbitmq-transport.modu
 import { MessagingModule } from './core/messaging';
 import { AppService } from './app.service';
 import { DatabaseModule } from './core/database/database.module';
+import { I18nCoreModule } from './core/i18n/i18n.module';
 
 @Module({})
 export class AppModule {
@@ -31,6 +32,7 @@ export class AppModule {
       imports: [
         ConfigModule.register(configOptions),
         LoggerModule,
+        I18nCoreModule,
 
         AppClsModule,
         RabbitmqTransportModule,
