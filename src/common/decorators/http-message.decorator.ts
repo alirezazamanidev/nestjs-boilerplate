@@ -19,5 +19,5 @@ export type HttpMessageMetadata =
  * @param message - The custom message
  * @returns {CustomDecorator<string>}
  */
-export const HttpMessage = (message: string): CustomDecorator<string> =>
+export const HttpMessage = (message: HttpMessageMetadata): CustomDecorator<string> =>
     SetMetadata(HTTP_MESSAGE_KEY, message);
