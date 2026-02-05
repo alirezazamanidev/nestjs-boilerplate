@@ -1,4 +1,6 @@
 import { ModuleManifest } from "src/core/modules/manifest.types";
+import fileConfig from "./config/file.config.js";
+import fileConfigSchema from "./config/file-config.schema.js";
 
 
 export const manifest:ModuleManifest={
@@ -8,6 +10,8 @@ export const manifest:ModuleManifest={
     enabledByDefault:true,
     getModule: async () => (await import('./file.module.js')).FileModule,
     config:{
+        factory:fileConfig,
+        schema:fileConfigSchema,
 
     },
     db:{
