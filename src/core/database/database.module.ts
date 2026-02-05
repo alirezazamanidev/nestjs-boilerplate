@@ -22,7 +22,8 @@ import { NODE_ENV } from 'src/common/config/config';
           logging: isCli ? ['error', 'warn'] : config.get('db.logging'),
           logger: isCli
             ? undefined
-            : new TypeOrmLogger(config.get('db.loggingLevel') ?? 'all'),
+            : (config.get('db.logging', false) ??
+              new TypeOrmLogger(config.get('db.loggingLevel') ?? 'all')),
           autoLoadEntities: true,
         } as TypeOrmModuleAsyncOptions;
       },
