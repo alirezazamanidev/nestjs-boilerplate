@@ -1,8 +1,8 @@
 import {
-    CallHandler,
-    ExecutionContext,
-    Injectable,
-    NestInterceptor,
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Response } from 'express';
@@ -10,8 +10,12 @@ import { ServerResponse } from 'http';
 import { ClsServiceManager } from 'nestjs-cls';
 
 import { map, Observable } from 'rxjs';
-import { HTTP_MESSAGE_KEY } from '../decorators/http-message.decorator';
-import { responseClassMap,HttpResponse } from '../utils/http-response.util';
+import {
+  HTTP_MESSAGE_KEY,
+  HttpMessageMetadata,
+} from '../decorators/http-message.decorator';
+import { responseClassMap, HttpResponse } from '../utils/http-response.util';
+import { I18nService } from 'nestjs-i18n';
 
 /**
  * Interceptor to standardize HTTP responses.
@@ -28,49 +32,64 @@ import { responseClassMap,HttpResponse } from '../utils/http-response.util';
  */
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
-    constructor(private readonly reflector: Reflector) {}
+  constructor(
+    private readonly reflector: Reflector,
+    private i18n: I18nService,
+  ) {}
 
-    intercept(
-        context: ExecutionContext,
-        next: CallHandler<any>,
-    ): Observable<any> | Promise<Observable<any>> {
-        const httpCtx = context.switchToHttp();
-        const res = httpCtx.getResponse<Response>();
-        const req = httpCtx.getRequest<Request>() as Request & { id?: string };
-       
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<any>,
+  ): Observable<any> | Promise<Observable<any>> {
+    const httpCtx = context.switchToHttp();
+    const res = httpCtx.getResponse<Response>();
+    const req = httpCtx.getRequest<Request>() as Request & { id?: string };
 
-        return next.handle().pipe(
-            map((data) => {
-                // Skip if the response was already sent manually (use library-specific approach for sending response).
+    return next.handle().pipe(
+      map((data) => {
+        // Skip if the response was already sent manually (use library-specific approach for sending response).
 
-                if (data instanceof ServerResponse || res.writableEnded) {
-                    return;
-                }
+        if (data instanceof ServerResponse || res.writableEnded) {
+          return;
+        }
 
-                // Skip if already wrapped
-                if (data instanceof HttpResponse) {
-                    return data;
-                }
+        // Skip if already wrapped
+        if (data instanceof HttpResponse) {
+          return data;
+        }
 
-                // Determine appropriate response class based on status code
-                const status = res.statusCode;
-                const requestId: string | undefined =
-                    req.id ??
-                    ClsServiceManager.getClsService()?.get('requestId');
-                const ResponseClass = responseClassMap[status];
-                const responseInst = new ResponseClass(requestId, data);
+        // Determine appropriate response class based on status code
+        const status = res.statusCode;
+        const requestId: string | undefined =
+          req.id ?? ClsServiceManager.getClsService()?.get('requestId');
+        const ResponseClass = responseClassMap[status];
+        const responseInst = new ResponseClass(requestId, data);
 
-                // Get custom message was set by @HttpMessage decorator and update response instance
-                const httpMessage = this.reflector.getAllAndOverride<
-                    string | undefined
-                >(HTTP_MESSAGE_KEY, [context.getHandler()]);
-                if (httpMessage) {
-                   responseInst.message=httpMessage;
-                }
-                // responseInst.message = i18n?.t('common.success.operationSuccessful') ?? '';
+        // Get custom message was set by @HttpMessage decorator and update response instance
+        const httpMessage = this.reflector.getAllAndOverride<
+          HttpMessageMetadata | undefined
+        >(HTTP_MESSAGE_KEY, [context.getHandler()]);
+     
+        const translatedMessage=this.resolveHttpMessage(httpMessage,req.headers['x-lang']);
+        if(translatedMessage) responseInst.message=translatedMessage;
+        return responseInst;
+      }),
+    );
+  }
 
-                return responseInst;
-            }),
-        );
+  private resolveHttpMessage(metadata?: HttpMessageMetadata, lang?: string) {
+    if (!metadata) return undefined;
+    if (typeof metadata === 'string') return metadata;
+
+    try {
+      return this.i18n.translate(metadata.key, {
+        ...(metadata.options ?? {}),
+        lang: metadata.options?.lang ?? lang,
+      }) as string
+    } catch (error) {
+      return (
+        metadata.fallback ?? metadata.options?.defaultValue ?? metadata.key
+      );
     }
+  }
 }

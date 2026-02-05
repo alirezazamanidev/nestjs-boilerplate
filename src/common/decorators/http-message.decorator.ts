@@ -1,6 +1,14 @@
 import { CustomDecorator, SetMetadata } from '@nestjs/common';
+import { TranslateOptions } from 'nestjs-i18n';
 
 export const HTTP_MESSAGE_KEY = 'http-message';
+export type HttpMessageMetadata =
+    | string
+    | {
+          key: string;
+          options?: TranslateOptions;
+          fallback?: string;
+      };
 
 /**
  * Set custom message for http response object.
