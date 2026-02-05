@@ -1,11 +1,10 @@
-
+import 'dotenv/config';
 import { ConfigService } from '@nestjs/config';
 import { getManifestsOptionsFromEnv } from './common/utils/loader-options.utils';
 import { createApp } from './core/bootstrap/create-app';
 import { setupApp } from './core/bootstrap/app.setup';
 import { config } from 'dotenv';
 import { ensureTranslationsFlattened } from './core/i18n/scripts/translations-dev.helper';
-config({path:['.env']})
 
 async function bootstrap() {
    ensureTranslationsFlattened({

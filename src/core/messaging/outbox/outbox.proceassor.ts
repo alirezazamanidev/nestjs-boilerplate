@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { LoggerManager } from 'src/core/logger/logger.manager';
 import { OutboxService } from './outbox.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
-
 @Injectable()
 export class OutboxProcessor {
   private readonly logger = LoggerManager.resolveLogger({

@@ -18,7 +18,7 @@ const messagingSchema = Joi.object({
     .falsy('false', '0', 'no')
     .default(true),
   MESSAGING_DRIVER: Joi.string().valid('memory', 'rabbit').optional(),
-
+  OUTBOX_PROCESSOR_ENABLED:Joi.boolean().default(false)
 });
 
 export default new ManifestConfig(messagingConfig,messagingSchema);
