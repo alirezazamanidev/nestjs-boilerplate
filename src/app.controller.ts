@@ -10,13 +10,7 @@ export class AppController {
  
   @Get('/check')
   async check() {
-    // simulate async operation
-    await new Promise((resolve) =>
-      setTimeout(() => {
-        resolve(true);
-      }, 5000),
-    );
-
+  
     return 'ok';
   }
 }

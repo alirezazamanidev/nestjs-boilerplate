@@ -48,11 +48,9 @@ export class ResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         // Skip if the response was already sent manually (use library-specific approach for sending response).
-
         if (data instanceof ServerResponse || res.writableEnded) {
           return;
         }
-
         // Skip if already wrapped
         if (data instanceof HttpResponse) {
           return data;
@@ -69,9 +67,16 @@ export class ResponseInterceptor implements NestInterceptor {
         const httpMessage = this.reflector.getAllAndOverride<
           HttpMessageMetadata | undefined
         >(HTTP_MESSAGE_KEY, [context.getHandler()]);
-     
-        const translatedMessage=this.resolveHttpMessage(httpMessage,req.headers['x-lang']);
-        if(translatedMessage) responseInst.message=translatedMessage;
+
+        const translatedMessage = this.resolveHttpMessage(
+          httpMessage,
+          req.headers['x-lang'],
+        );
+        if (translatedMessage) responseInst.message = translatedMessage;
+        else
+          responseInst.message = this.i18n.translate(
+            'common.success.operationSuccessful',
+          );
         return responseInst;
       }),
     );
@@ -85,7 +90,7 @@ export class ResponseInterceptor implements NestInterceptor {
       return this.i18n.translate(metadata.key, {
         ...(metadata.options ?? {}),
         lang: metadata.options?.lang ?? lang,
-      }) as string
+      }) as string;
     } catch (error) {
       return (
         metadata.fallback ?? metadata.options?.defaultValue ?? metadata.key
