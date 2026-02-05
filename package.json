@@ -1,5 +1,5 @@
 {
-  "name": "boilerplate",
+  "name": "file-service",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -23,7 +23,7 @@
     "migrate:rollback": "npm run cli  -- migrate:rollback",
     "migrate:status": "npm run cli -- migrate:status",
     "migrate:fresh": "npm run cli -- migrate:fresh",
-    "migrate:generate": "npm run bundle:build && npm run cli -- migrate:make -t generate",
+    "migrate:generate": "npm run cli -- migrate:make -t generate",
     "migrate:create": "npm run cli -- migrate:make -t create",
     "bundle:build": "npm run cli  -- bundle:build"
   },
@@ -50,6 +50,7 @@
     "file-stream-rotator": "^1.0.0",
     "joi": "^18.0.2",
     "lodash": "^4.17.23",
+    "minio": "^8.0.6",
     "mysql2": "^3.16.2",
     "nest-commander": "^3.20.1",
     "nestjs-cls": "^6.2.0",
@@ -71,6 +72,7 @@
     "@types/amqplib": "^0.10.8",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
+    "@types/minio": "^7.1.0",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",

@@ -1,0 +1,25 @@
+import { ModuleManifest } from "src/core/modules/manifest.types";
+import fileConfig from "./config/file.config.js";
+import fileConfigSchema from "./config/file-config.schema.js";
+
+
+export const manifest:ModuleManifest={
+    id:'file',
+    title:'File',
+    priority:20,
+    enabledByDefault:true,
+    getModule: async () => (await import('./file.module.js')).FileModule,
+    config:{
+        factory:fileConfig,
+        schema:fileConfigSchema,
+
+    },
+    db:{
+        entities: ['dist/modules/file/entities/*.js'],
+        migrations: ['dist/modules/file/database/migrations/*.js'],
+        seeders: ['dist/modules/file/database/seeders/*.js'],
+        factories: ['dist/modules/file/database/factories/*.js'],
+    },
+    tags: ['file', 'media', 'storage'],
+
+}
