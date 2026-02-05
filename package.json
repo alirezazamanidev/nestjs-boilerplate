@@ -23,7 +23,7 @@
     "migrate:rollback": "npm run cli  -- migrate:rollback",
     "migrate:status": "npm run cli -- migrate:status",
     "migrate:fresh": "npm run cli -- migrate:fresh",
-    "migrate:generate": "npm run bundle:build && npm run cli -- migrate:make -t generate",
+    "migrate:generate": "npm run cli -- migrate:make -t generate",
     "migrate:create": "npm run cli -- migrate:make -t create",
     "bundle:build": "npm run cli  -- bundle:build"
   },
